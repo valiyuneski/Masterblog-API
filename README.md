@@ -17,3 +17,9 @@ POST: "http://localhost:5002/api/posts"
 }
 
 DELETE: "http://localhost:5002/api/posts/3"
+
+UPDATE PUT: "http://localhost:5002/api/posts/3"
+{
+    "title": "<new title>",
+    "content": "<new content>"
+}
