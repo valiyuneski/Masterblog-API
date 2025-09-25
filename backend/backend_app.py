@@ -5,15 +5,35 @@ app = Flask(__name__)
 CORS(app)  # This will enable CORS for all routes
 
 POSTS = [
-    {"id": 1, "title": "First post", "content": "This is the first post."},
-    {"id": 2, "title": "Second post", "content": "This is the second post."},
+    {"id": 1, "title": "First post", "content": "This is the first post about Flask."},
+    {"id": 2, "title": "Second post", "content": "This is the second post about APIs."},
+    {"id": 3, "title": "Flask Tips", "content": "Some useful tips for working with Flask."}
 ]
 
 
 @app.route('/api/posts', methods=['GET'])
 def get_posts():
-    """Get all POSTS jsonified"""
-    return jsonify(POSTS)
+    """ GET all posts with optional sorting """
+    sort_field = request.args.get("sort")
+    direction = request.args.get("direction", "asc").lower()
+
+    # Validate sort field if provided
+    if sort_field and sort_field not in ["title", "content"]:
+        return jsonify({"error": f"Invalid sort field '{sort_field}'. Must be 'title' or 'content'."}), 400
+
+    # Validate direction if provided
+    if direction not in ["asc", "desc"]:
+        return jsonify({"error": f"Invalid direction '{direction}'. Must be 'asc' or 'desc'."}), 400
+
+    # Apply sorting if sort_field is provided
+    if sort_field:
+        reverse = direction == "desc"
+        sorted_posts = sorted(POSTS, key=lambda p: p[sort_field].lower(), reverse=reverse)
+        return jsonify(sorted_posts), 200
+
+    # Default: return original order
+    return jsonify(POSTS), 200
+
 
 
 @app.route('/api/posts', methods=['POST'])
