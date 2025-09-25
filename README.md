@@ -8,3 +8,10 @@ pip install --upgrade pip
 
 Run backend:
 python3 backend/backend_app.py
+
+POST: "http://localhost:5002/api/posts"
+{
+    "content": "This is the third post.",
+    "id": 3,
+    "title": "Third post"
+}
