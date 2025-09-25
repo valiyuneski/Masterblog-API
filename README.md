@@ -15,3 +15,5 @@ POST: "http://localhost:5002/api/posts"
     "id": 3,
     "title": "Third post"
 }
+
+DELETE: "http://localhost:5002/api/posts/3"
